@@ -1,0 +1,11 @@
+
+# Null
+# Mysql
+data-storage-method: "Null"
+
+MySQL:
+  jdbc-url: "jdbc:mysql://mysql:3306/minecraft?useSSL=false&autoReconnect=true"
+  jdbc-class: "com.mysql.cj.jdbc.Driver"
+  properties:
+    user: "root"
+    password: "123456"
