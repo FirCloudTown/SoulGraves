@@ -4,6 +4,7 @@ import dev.faultyfunctions.soulgraves.managers.ConfigManager
 import dev.faultyfunctions.soulgraves.utils.Soul
 import com.jeff_media.morepersistentdatatypes.DataType
 import dev.faultyfunctions.soulgraves.*
+import dev.faultyfunctions.soulgraves.managers.DatabaseManager
 import dev.faultyfunctions.soulgraves.utils.SpigotCompatUtils
 import org.bukkit.Location
 import org.bukkit.Material
@@ -83,6 +84,11 @@ class PlayerDeathListener() : Listener {
 		e.drops.clear()
 		e.drops.addAll(soulboundInventory)
 		e.droppedExp = 0
+
+		// SAVE SOUL
+		if (DatabaseManager.databaseType.lowercase() == "mysql") {
+			DatabaseManager.mysqlDatabase.saveSoul(soul)
+		}
 	}
 
 	private fun findSafeLocation(locationToCheck: Location): Location {

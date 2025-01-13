@@ -1,3 +1,5 @@
+# Server Name, record to database
+server-name: "lobby"
 
 # Null
 # Mysql

@@ -8,6 +8,7 @@ import dev.faultyfunctions.soulgraves.soulChunksKey
 import dev.faultyfunctions.soulgraves.soulKey
 import dev.faultyfunctions.soulgraves.utils.SoulState
 import com.jeff_media.morepersistentdatatypes.DataType
+import dev.faultyfunctions.soulgraves.managers.DatabaseManager
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.Particle
@@ -100,6 +101,9 @@ class SoulPickupTask : BukkitRunnable() {
 					// REMOVE SOUL
 					marker.remove()
 					soulIterator.remove()
+
+					// REMOVE FROM DATABASE
+					DatabaseManager.mysqlDatabase.deleteSoul(soul)
 				}
 			}
 		}

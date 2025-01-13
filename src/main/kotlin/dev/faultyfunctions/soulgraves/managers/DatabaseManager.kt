@@ -10,13 +10,15 @@ object DatabaseManager {
     val config: YamlConfiguration = YamlConfiguration()
 
     // DATABASE VALUES
+    lateinit var serverName: String
+    lateinit var databaseType: String
     lateinit var mysqlDatabase: MySQLDatabase
 
     init {
-        initialize()
+        loadDatabase()
     }
 
-    private fun initialize() {
+    fun loadDatabase() {
         // GRAB FILE
         file = File(SoulGraves.plugin.dataFolder, "database.yml")
 
@@ -35,10 +37,12 @@ object DatabaseManager {
         }
 
         // LOAD VALUES
-        val type = config.getString("data-storage-method", "Null")
-        when (type?.lowercase()) {
-            "MySQL" -> mysqlDatabase = MySQLDatabase().init()
+        databaseType = config.getString("data-storage-method", "Null")!!
+        when (databaseType.lowercase()) {
+            "mysql" -> mysqlDatabase = MySQLDatabase().init()
         }
+        serverName = config.getString("server-name", "lobby")!!
 
     }
+
 }
