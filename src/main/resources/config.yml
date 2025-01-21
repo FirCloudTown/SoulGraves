@@ -96,7 +96,8 @@ particles:
   enabled: true
   follow-radius: 50
   particle:
-    type: SOUL_FIRE_FLAME
+    type:
+    interval: 10
     duration: 5
     amount: 5
     space: 1.0

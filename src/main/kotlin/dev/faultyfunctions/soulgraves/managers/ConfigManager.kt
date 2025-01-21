@@ -38,11 +38,12 @@ object ConfigManager {
 	lateinit var disabledWorlds: List<String>
 	// PARTICLES CONFIG
 	var enableParticles by Delegates.notNull<Boolean>()
-	var particlesFollowRadius by Delegates.notNull<Int>()
+	var particlesFollowRadius by Delegates.notNull<Double>()
 	var particleType by Delegates.notNull<String>()
 	var particleDuration by Delegates.notNull<Int>()
 	var particleAmount by Delegates.notNull<Int>()
 	var particleSpace by Delegates.notNull<Double>()
+	var particleInterval by Delegates.notNull<Long>()
 
 	fun loadConfig() {
 		// GRAB FILE
@@ -119,11 +120,12 @@ object ConfigManager {
 		}
 		disabledWorlds = config.getStringList("disabled-worlds")
 		// PARTICLES CONFIG
-		enableParticles = config.getBoolean("particles.enabled")
-		particlesFollowRadius = config.getInt("particles.follow-radius")
-		particleType = config.getString("particles.particle.type")!!
-		particleDuration = config.getInt("particles.particle.duration")
-		particleAmount = config.getInt("particles.particle.amount")
-		particleSpace = config.getDouble("particles.particle.space")
+		enableParticles = config.getBoolean("particles.enabled", true)
+		particlesFollowRadius = config.getDouble("particles.follow-radius", 50.0)
+		particleType = config.getString("particles.particle.type", "SOUL_FIRE_FLAME")!!
+		particleInterval = config.getLong("particles.particle.interval", 10)
+		particleDuration = config.getInt("particles.particle.duration", 5)
+		particleAmount = config.getInt("particles.particle.amount", 5)
+		particleSpace = config.getDouble("particles.particle.space", 1.0)
 	}
 }
