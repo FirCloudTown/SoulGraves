@@ -97,5 +97,6 @@ particles:
   follow-radius: 50
   particle:
     type: SOUL_FIRE_FLAME
+    duration: 5
     amount: 5
     space: 1.0

@@ -38,8 +38,9 @@ object ConfigManager {
 	lateinit var disabledWorlds: List<String>
 	// PARTICLES CONFIG
 	var enableParticles by Delegates.notNull<Boolean>()
-	var followRadius by Delegates.notNull<Int>()
+	var particlesFollowRadius by Delegates.notNull<Int>()
 	var particleType by Delegates.notNull<String>()
+	var particleDuration by Delegates.notNull<Int>()
 	var particleAmount by Delegates.notNull<Int>()
 	var particleSpace by Delegates.notNull<Double>()
 
@@ -119,17 +120,10 @@ object ConfigManager {
 		disabledWorlds = config.getStringList("disabled-worlds")
 		// PARTICLES CONFIG
 		enableParticles = config.getBoolean("particles.enabled")
-		followRadius = config.getInt("particles.follow-radius")
+		particlesFollowRadius = config.getInt("particles.follow-radius")
 		particleType = config.getString("particles.particle.type")!!
+		particleDuration = config.getInt("particles.particle.duration")
 		particleAmount = config.getInt("particles.particle.amount")
 		particleSpace = config.getDouble("particles.particle.space")
 	}
-
-//	fun saveConfig() {
-//		try {
-//			config.save(file)
-//		} catch (e: Exception) {
-//			e.printStackTrace()
-//		}
-//	}
 }
