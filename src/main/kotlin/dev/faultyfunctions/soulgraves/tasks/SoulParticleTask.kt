@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
 import java.util.UUID
 
-class SoulParticleTask : BukkitRunnable() {
+class ParticleLineTask : BukkitRunnable() {
 
     private var enableParticles = ConfigManager.enableParticles
     private var particle = Particle.SOUL_FIRE_FLAME
@@ -45,7 +45,14 @@ class SoulParticleTask : BukkitRunnable() {
                 var locations: MutableList<org.bukkit.Location> = mutableListOf()
 
                 override fun run() {
-                    if (!nearbyPlayerFilter(nearbyPlayer, uuid)) cancel()
+                    // 检查灵魂是否已被拾取或玩家状态是否满足条件
+                    if (!SoulGraves.soulList.contains(soul) ||
+                        !nearbyPlayerFilter(nearbyPlayer, uuid) ||
+                        !nearbyPlayer.isOnline ||
+                        nearbyPlayer.location.distance(soul.location) > followRadius) {
+                        cancel() // 取消粒子任务
+                        return
+                    }
 
                     if (tick == 0) {
                         // 计算粒子轨迹
