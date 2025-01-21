@@ -36,6 +36,12 @@ object ConfigManager {
 	val notifyOwnerBurstSound = SoundConfig()
 	val notifyOwnerPickupSound = SoundConfig()
 	lateinit var disabledWorlds: List<String>
+	// PARTICLES CONFIG
+	var enableParticles by Delegates.notNull<Boolean>()
+	var followRadius by Delegates.notNull<Int>()
+	var particleType by Delegates.notNull<String>()
+	var particleAmount by Delegates.notNull<Int>()
+	var particleSpace by Delegates.notNull<Double>()
 
 	fun loadConfig() {
 		// GRAB FILE
@@ -111,6 +117,12 @@ object ConfigManager {
 			notifyOwnerPickupSound.pitches.add(split[2].toFloat())
 		}
 		disabledWorlds = config.getStringList("disabled-worlds")
+		// PARTICLES CONFIG
+		enableParticles = config.getBoolean("particles.enabled")
+		followRadius = config.getInt("particles.follow-radius")
+		particleType = config.getString("particles.particle.type")!!
+		particleAmount = config.getInt("particles.particle.amount")
+		particleSpace = config.getDouble("particles.particle.space")
 	}
 
 //	fun saveConfig() {

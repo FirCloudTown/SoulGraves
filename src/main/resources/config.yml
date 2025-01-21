@@ -90,3 +90,12 @@ notify-owner-pickup-sound:
 #  - world_nether
 #  - world_the_end
 disabled-worlds: []
+
+# When Player Nearby own souls, plugin will show particles to lead to soul's location.
+particles:
+  enabled: true
+  follow-radius: 50
+  particle:
+    type: SOUL_FIRE_FLAME
+    amount: 5
+    space: 1.0
