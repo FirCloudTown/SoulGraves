@@ -36,6 +36,10 @@ class SoulGraves : JavaPlugin() {
 		return this.adventure
 	}
 
+	override fun onLoad() {
+
+	}
+
 	override fun onEnable() {
 		plugin = this
 		plugin.adventure = BukkitAudiences.create(plugin)
@@ -59,6 +63,7 @@ class SoulGraves : JavaPlugin() {
 		SoulRenderTask().runTaskTimer(this, 0, 1)
 		SoulStateTask().runTaskTimer(this, 0, 20)
 		SoulSoundTask().runTaskTimer(this, 0, 50)
+
 		SoulParticleTask().runTaskTimer(this, 0, 50)
 
 		// SET UP BSTATS

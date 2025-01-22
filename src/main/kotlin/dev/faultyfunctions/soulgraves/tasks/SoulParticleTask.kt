@@ -10,10 +10,11 @@ import java.util.*
 
 class SoulParticleTask : BukkitRunnable() {
 
+    private var particle = Particle.valueOf(ConfigManager.particleType)
     private var enableParticles = ConfigManager.enableParticles
-    private var particle = Particle.SOUL_FIRE_FLAME
     private var followRadius = ConfigManager.particlesFollowRadius
-    val init_distance = 3
+    private val initDistance = ConfigManager.particlesInitDistance
+    private val particleSpeed = ConfigManager.particleSpeed
 
     val nearbyPlayerFilter: (Entity, UUID) -> Boolean = { entity, uuid ->
         entity is Player && entity.uniqueId == uuid
@@ -46,11 +47,11 @@ class SoulParticleTask : BukkitRunnable() {
 
             // 生成粒子
             val direction = nearbyPlayer.eyeLocation.direction
-            val origin = nearbyPlayer.eyeLocation.add(direction.multiply(init_distance))
+            val origin = nearbyPlayer.eyeLocation.add(direction.multiply(initDistance))
             // 从origin指向soul的向量，不是单位向量
             val line = soul.location.clone().toVector().subtract(origin.toVector())
             // 参数：粒子类型，起始位置，粒子数量（为0时为向量模式）， 粒子生成随机偏移xyz（向量模式时为粒子方向），速度，特殊数据，强制显示
-            world.spawnParticle(particle, origin, 0, line.x, line.y,line.z, 0.05, null, true)
+            world.spawnParticle(particle, origin, 0, line.x, line.y,line.z, particleSpeed, null, true)
 
         }
     }

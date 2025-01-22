@@ -40,10 +40,8 @@ object ConfigManager {
 	var enableParticles by Delegates.notNull<Boolean>()
 	var particlesFollowRadius by Delegates.notNull<Double>()
 	var particleType by Delegates.notNull<String>()
-	var particleDuration by Delegates.notNull<Int>()
-	var particleAmount by Delegates.notNull<Int>()
-	var particleSpace by Delegates.notNull<Double>()
-	var particleInterval by Delegates.notNull<Long>()
+	var particlesInitDistance by Delegates.notNull<Double>()
+	var particleSpeed by Delegates.notNull<Double>()
 
 	fun loadConfig() {
 		// GRAB FILE
@@ -122,10 +120,9 @@ object ConfigManager {
 		// PARTICLES CONFIG
 		enableParticles = config.getBoolean("particles.enabled", true)
 		particlesFollowRadius = config.getDouble("particles.follow-radius", 50.0)
-		particleType = config.getString("particles.particle.type", "SOUL_FIRE_FLAME")!!
-		particleInterval = config.getLong("particles.particle.interval", 10)
-		particleDuration = config.getInt("particles.particle.duration", 5)
-		particleAmount = config.getInt("particles.particle.amount", 5)
-		particleSpace = config.getDouble("particles.particle.space", 1.0)
+		particleType = config.getString("particles.particle.type", "soul_fire_flame")!!
+		particlesInitDistance = config.getDouble("particles.particle.init-distance", 2.5)
+		particleSpeed = config.getDouble("particles.particle.speed", 0.03)
+
 	}
 }
