@@ -59,7 +59,7 @@ class SoulGraves : JavaPlugin() {
 		SoulRenderTask().runTaskTimer(this, 0, 1)
 		SoulStateTask().runTaskTimer(this, 0, 20)
 		SoulSoundTask().runTaskTimer(this, 0, 50)
-		SoulParticleTask().runTaskTimer(this, 0, 20)
+		SoulParticleTask().runTaskTimer(this, 0, 50)
 
 		// SET UP BSTATS
 		val pluginId = 23436
