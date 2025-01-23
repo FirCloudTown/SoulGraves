@@ -39,28 +39,24 @@ class SoulParticleTask : BukkitRunnable() {
                 return
             }
 
-            // 要写进config的
-             val maxAmount = 5
-            val offsetBound = 2.0
-
-            // 生成粒子   
+            // 生成粒子
             val direction = nearbyPlayer.eyeLocation.direction.setY(0)
-            val origin = nearbyPlayer.eyeLocation.add(direction.multiply(initDistance))
-            // 从origin指向soul的向量，不是单位向量
-            val line = soul.location.clone().toVector().subtract(origin.toVector())
-            // 参数：粒子类型，起始位置，粒子数量（为0时为向量模式）， 粒子生成随机偏移xyz（向量模式时为粒子方向），速度，特殊数据，强制显示
+            val origin = nearbyPlayer.eyeLocation.add(direction.multiply(ConfigManager.particlesInitDistance))
+            val line = soul.location.clone().toVector().subtract(origin.toVector()) // 从origin指向soul的向量，不是单位向量
 
+            // 参数：粒子类型，起始位置，粒子数量（为0时为向量模式）， 粒子生成随机偏移xyz（向量模式时为粒子方向），速度，特殊数据，强制显示
             val random = Random()
-            repeat(random.nextInt(1, maxAmount + 1)) {
+            val offsetBound = ConfigManager.particleOffsetBound
+            repeat(random.nextInt(1, ConfigManager.particleMaxAmount + 1)) {
                 world.spawnParticle(
-                    particle,
+                    ConfigManager.particleType,
                     origin.clone().add(
                         random.nextDouble(-offsetBound, offsetBound),
                         random.nextDouble(-offsetBound, offsetBound),
                         random.nextDouble(-offsetBound, offsetBound)),
-                    0,
+                    0,  // 向量模式
                     line.x, line.y,line.z,
-                    particleSpeed,
+                    ConfigManager.particleSpeed,
                     null,true
                 )
             }

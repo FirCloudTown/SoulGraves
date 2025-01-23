@@ -43,6 +43,8 @@ object ConfigManager {
 	var particleType by Delegates.notNull<Particle>()
 	var particlesInitDistance by Delegates.notNull<Double>()
 	var particleSpeed by Delegates.notNull<Double>()
+	var particleMaxAmount by Delegates.notNull<Int>()
+	var particleOffsetBound by Delegates.notNull<Double>()
 
 	fun loadConfig() {
 		// GRAB FILE
@@ -123,7 +125,9 @@ object ConfigManager {
 		particlesFollowRadius = config.getDouble("particles.follow-radius", 50.0)
 		particleType = Particle.valueOf(config.getString("particles.particle.type", "soul_fire_flame")!!)
 		particlesInitDistance = config.getDouble("particles.particle.init-distance", 2.5)
-		particleSpeed = config.getDouble("particles.particle.speed", 0.03)
+		particleSpeed = config.getDouble("particles.particle.speed", 0.01)
+		particleMaxAmount  = config.getInt("particles.particle.max-amount", 5)
+		particleOffsetBound = config.getDouble("particles.particle.offset-bound", 1.5)
 
 	}
 }
