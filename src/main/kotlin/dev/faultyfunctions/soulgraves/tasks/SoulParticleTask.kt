@@ -38,15 +38,30 @@ class SoulParticleTask : BukkitRunnable() {
                 nearbyPlayer.location.distance(soul.location) > ConfigManager.particlesFollowRadius) {
                 return
             }
+            // 要写进config的
+             val maxAmount = 5
+            val offsetBound = 2.0
 
+
+            val random = Random()
             // 生成粒子
-            val direction = nearbyPlayer.eyeLocation.direction
-            val origin = nearbyPlayer.eyeLocation.add(direction.multiply(ConfigManager.particlesInitDistance))
+            val origin = nearbyPlayer.eyeLocation.add(nearbyPlayer.eyeLocation.direction.multiply(initDistance))
             // 从origin指向soul的向量，不是单位向量
             val line = soul.location.clone().toVector().subtract(origin.toVector())
             // 参数：粒子类型，起始位置，粒子数量（为0时为向量模式）， 粒子生成随机偏移xyz（向量模式时为粒子方向），速度，特殊数据，强制显示
-            world.spawnParticle(ConfigManager.particleType, origin, 0, line.x, line.y,line.z, ConfigManager.particleSpeed, null, true)
-
+            repeat(random.nextInt(1, maxAmount + 1)) {
+                world.spawnParticle(
+                    particle,
+                    origin.clone().add(
+                        random.nextDouble(-offsetBound, offsetBound),
+                        random.nextDouble(-offsetBound, offsetBound),
+                        random.nextDouble(-offsetBound, offsetBound)),
+                    0,
+                    line.x, line.y,line.z,
+                    particleSpeed,
+                    null,true
+                )
+            }
         }
     }
 }
