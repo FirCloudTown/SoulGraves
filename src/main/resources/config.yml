@@ -98,4 +98,7 @@ particles:
   particle:
     type: "soul_fire_flame"
     init-distance: 2.5
-    speed: 0.03
+    speed: 0.005
+    speed-bound: 0.003
+    max-amount: 5
+    offset-bound: 1.5
