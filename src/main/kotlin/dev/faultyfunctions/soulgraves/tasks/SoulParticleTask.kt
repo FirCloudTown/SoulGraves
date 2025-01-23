@@ -2,7 +2,6 @@ package dev.faultyfunctions.soulgraves.tasks
 
 import dev.faultyfunctions.soulgraves.SoulGraves
 import dev.faultyfunctions.soulgraves.managers.ConfigManager
-import org.bukkit.Particle
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 import org.bukkit.scheduler.BukkitRunnable
@@ -44,19 +43,23 @@ class SoulParticleTask : BukkitRunnable() {
             val origin = nearbyPlayer.eyeLocation.add(direction.multiply(ConfigManager.particlesInitDistance))
             val line = soul.location.clone().toVector().subtract(origin.toVector()) // 从origin指向soul的向量，不是单位向量
 
-            // 参数：粒子类型，起始位置，粒子数量（为0时为向量模式）， 粒子生成随机偏移xyz（向量模式时为粒子方向），速度，特殊数据，强制显示
             val random = Random()
             val offsetBound = ConfigManager.particleOffsetBound
             repeat(random.nextInt(1, ConfigManager.particleMaxAmount + 1)) {
+                // 参数：粒子类型，起始位置，粒子数量（为0时为向量模式）， 粒子生成随机偏移xyz（向量模式时为粒子方向），速度，特殊数据，强制显示
                 world.spawnParticle(
                     ConfigManager.particleType,
                     origin.clone().add(
                         random.nextDouble(-offsetBound, offsetBound),
                         random.nextDouble(-offsetBound, offsetBound),
-                        random.nextDouble(-offsetBound, offsetBound)),
-                    0,  // 向量模式
-                    line.x, line.y,line.z,
-                    ConfigManager.particleSpeed,
+                        random.nextDouble(-offsetBound, offsetBound)
+                    ),
+                    0,  // 向量模式,
+                    line.x, line.y,line.z,  // 此line向量的三维分量乘以speed等于粒子最终三维速度
+                    random.nextDouble(
+                        ConfigManager.particleSpeed - ConfigManager.particleSpeedBound,
+                        ConfigManager.particleSpeed + ConfigManager.particleSpeedBound
+                    ),  // 随机speed
                     null,true
                 )
             }
