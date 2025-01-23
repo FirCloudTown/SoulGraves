@@ -96,8 +96,6 @@ particles:
   enabled: true
   follow-radius: 50
   particle:
-    type:
-    interval: 10
-    duration: 5
-    amount: 5
-    space: 1.0
+    type: "soul_fire_flame"
+    init-distance: 2.5
+    speed: 0.03

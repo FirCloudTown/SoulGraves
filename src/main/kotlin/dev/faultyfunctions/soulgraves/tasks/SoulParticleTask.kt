@@ -10,18 +10,12 @@ import java.util.*
 
 class SoulParticleTask : BukkitRunnable() {
 
-    private var particle = Particle.valueOf(ConfigManager.particleType)
-    private var enableParticles = ConfigManager.enableParticles
-    private var followRadius = ConfigManager.particlesFollowRadius
-    private val initDistance = ConfigManager.particlesInitDistance
-    private val particleSpeed = ConfigManager.particleSpeed
-
     val nearbyPlayerFilter: (Entity, UUID) -> Boolean = { entity, uuid ->
         entity is Player && entity.uniqueId == uuid
     }
 
     override fun run() {
-        if (!enableParticles) return
+        if (!ConfigManager.enableParticles) return
 
         val soulIterator = SoulGraves.soulList.iterator()
         while (soulIterator.hasNext()) {
@@ -31,7 +25,7 @@ class SoulParticleTask : BukkitRunnable() {
 
             if (world?.isChunkLoaded(soul.location.chunk) != true) continue
 
-            val nearbyPlayer = world.getNearbyEntities(soul.location, followRadius, followRadius, followRadius)
+            val nearbyPlayer = world.getNearbyEntities(soul.location, ConfigManager.particlesFollowRadius, ConfigManager.particlesFollowRadius, ConfigManager.particlesFollowRadius)
                 .filterIsInstance<Player>()
                 .firstOrNull { it.uniqueId == uuid }
 
@@ -41,17 +35,17 @@ class SoulParticleTask : BukkitRunnable() {
             if (!SoulGraves.soulList.contains(soul) ||
                 !nearbyPlayerFilter(nearbyPlayer, uuid) ||
                 !nearbyPlayer.isOnline ||
-                nearbyPlayer.location.distance(soul.location) > followRadius) {
+                nearbyPlayer.location.distance(soul.location) > ConfigManager.particlesFollowRadius) {
                 return
             }
 
             // 生成粒子
             val direction = nearbyPlayer.eyeLocation.direction
-            val origin = nearbyPlayer.eyeLocation.add(direction.multiply(initDistance))
+            val origin = nearbyPlayer.eyeLocation.add(direction.multiply(ConfigManager.particlesInitDistance))
             // 从origin指向soul的向量，不是单位向量
             val line = soul.location.clone().toVector().subtract(origin.toVector())
             // 参数：粒子类型，起始位置，粒子数量（为0时为向量模式）， 粒子生成随机偏移xyz（向量模式时为粒子方向），速度，特殊数据，强制显示
-            world.spawnParticle(particle, origin, 0, line.x, line.y,line.z, particleSpeed, null, true)
+            world.spawnParticle(ConfigManager.particleType, origin, 0, line.x, line.y,line.z, ConfigManager.particleSpeed, null, true)
 
         }
     }

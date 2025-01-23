@@ -1,6 +1,7 @@
 package dev.faultyfunctions.soulgraves.managers
 
 import dev.faultyfunctions.soulgraves.SoulGraves
+import org.bukkit.Particle
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import kotlin.properties.Delegates
@@ -39,7 +40,7 @@ object ConfigManager {
 	// PARTICLES CONFIG
 	var enableParticles by Delegates.notNull<Boolean>()
 	var particlesFollowRadius by Delegates.notNull<Double>()
-	var particleType by Delegates.notNull<String>()
+	var particleType by Delegates.notNull<Particle>()
 	var particlesInitDistance by Delegates.notNull<Double>()
 	var particleSpeed by Delegates.notNull<Double>()
 
@@ -120,7 +121,7 @@ object ConfigManager {
 		// PARTICLES CONFIG
 		enableParticles = config.getBoolean("particles.enabled", true)
 		particlesFollowRadius = config.getDouble("particles.follow-radius", 50.0)
-		particleType = config.getString("particles.particle.type", "soul_fire_flame")!!
+		particleType = Particle.valueOf(config.getString("particles.particle.type", "soul_fire_flame")!!)
 		particlesInitDistance = config.getDouble("particles.particle.init-distance", 2.5)
 		particleSpeed = config.getDouble("particles.particle.speed", 0.03)
 
