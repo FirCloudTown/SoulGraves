@@ -1,8 +1,15 @@
 package dev.faultyfunctions.soulgraves.managers
 
+import dev.dejvokep.boostedyaml.YamlDocument
+import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning
+import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings
+import dev.dejvokep.boostedyaml.settings.general.GeneralSettings
+import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings
+import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings
 import dev.faultyfunctions.soulgraves.SoulGraves
 import org.bukkit.Particle
 import org.bukkit.configuration.file.YamlConfiguration
+import org.bukkit.Bukkit
 import java.io.File
 import kotlin.properties.Delegates
 
@@ -14,8 +21,7 @@ class SoundConfig() {
 }
 
 object ConfigManager {
-	private lateinit var file: File
-	private val config: YamlConfiguration = YamlConfiguration()
+	private lateinit var config: YamlDocument
 
 	// CONFIG VALUES
 	var permissionRequired by Delegates.notNull<Boolean>()
@@ -48,22 +54,20 @@ object ConfigManager {
 	var particleOffsetBound by Delegates.notNull<Double>()
 
 	fun loadConfig() {
-		// GRAB FILE
-		file = File(SoulGraves.plugin.dataFolder, "config.yml")
-
-		// CREATE FILE IF IT DOESN'T EXIST
-		if (!file.exists()) {
-			SoulGraves.plugin.saveResource("config.yml", false)
-		}
-
-		// MAKE SURE WE KEEP COMMENTS
-		config.options().parseComments(true)
-
-		// LOAD FILE
 		try {
-			config.load(file)
-		} catch (e: Exception) {
-			e.printStackTrace()
+			config = YamlDocument.create(File(SoulGraves.plugin.dataFolder, "config.yml"),
+				SoulGraves.plugin.getResource("config.yml")!!,
+				GeneralSettings.DEFAULT,
+				LoaderSettings.builder().setAutoUpdate(true).build(),
+				DumperSettings.DEFAULT,
+				UpdaterSettings.builder().setVersioning(BasicVersioning("file-version")).setOptionSorting(UpdaterSettings.OptionSorting.SORT_BY_DEFAULTS).build()
+			)
+
+			config.update()
+			config.save()
+		} catch (e: IOException) {
+			SoulGraves.plugin.logger.severe("Failed to load config.yml! The plugin will now shut down.")
+			Bukkit.getServer().pluginManager.disablePlugin(SoulGraves.plugin)
 		}
 
 		// LOAD VALUES
